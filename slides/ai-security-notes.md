@@ -11,7 +11,7 @@
 
 Prompts and skills can *guide* agent behavior.
 
-When an agent decides to go rogue — **soft guardrails won't save you.**
+If an agent were to go rogue — **soft guardrails won't save you.**
 
 You need hard, OS-level controls.
 
@@ -31,10 +31,11 @@ You need hard, OS-level controls.
 
 ## Filesystem Security
 
-* Non-root user inside the container
-* Write isolation — only the working directory
+* With Docker, have a non-root user inside the container
+* Write isolation — only allow the working directory
 * Read-only mounts for host credentials
 * Never mount `~/.ssh` or cloud credentials into the container
+* Evil/incorrect generated code remains a problem even with filesystem security
 
 **Claude Code:** `/sandbox` enables OS-level filesystem isolation
 
@@ -42,7 +43,7 @@ You need hard, OS-level controls.
 
 ## Network Security
 
-**Risks:** exfiltration, malicious code pull, domain fronting, IPv6 bypass
+**Risks:** exfiltration, malicious code pull, domain fronting, IPv6 bypass, local network exploration
 
 **Controls**
 * Outbound allowlist — iptables + ipset + dnsmasq
@@ -51,15 +52,12 @@ You need hard, OS-level controls.
 
 ---
 
-## Both Are Required
+## Both Filesystem and Network Security Are Required
 
 > "Without network isolation, a compromised agent could exfiltrate SSH keys.
 > Without filesystem isolation, an agent can backdoor resources to gain network access."
 >
 > — Anthropic
-
-The Claude Code built-in proxy does not inspect TLS —
-allowing `github.com` permits domain fronting to arbitrary hosts.
 
 ---
 
@@ -97,7 +95,7 @@ ddev ollama pull llama3.2:3b
 * VS Code + [Continue](https://www.continue.dev/) — local autocomplete, no API key, no data leaving the machine
 * Drupal AI module testing against `http://ollama:11434/v1`
 * Offline / air-gapped development
-* Ollama 0.24.0 TUI includes a **Launch Claude Code** option
+* Ollama TUI includes a **Launch Claude Code** option
 
 ---
 
