@@ -13,6 +13,8 @@ Prompts and skills can *guide* agent behavior.
 
 If an agent were to go rogue — **soft guardrails won't save you.**
 
+Maybe even if you're approving each action you'll lose control.
+
 You need hard, OS-level controls.
 
 ---
@@ -31,19 +33,17 @@ You need hard, OS-level controls.
 
 ## Filesystem Security
 
-* With Docker, have a non-root user inside the container
+* With Docker, use a non-root user inside the container
 * Write isolation — only allow the working directory
 * Read-only mounts for host credentials
 * Never mount `~/.ssh` or cloud credentials into the container
 * Evil/incorrect generated code remains a problem even with filesystem security
 
-**Claude Code:** `/sandbox` enables OS-level filesystem isolation
-
 ---
 
 ## Network Security
 
-**Risks:** exfiltration, malicious code pull, domain fronting, IPv6 bypass, local network exploration
+**Risks:** file exfiltration, malicious code pull, domain fronting, IPv6 bypass, local network exploration
 
 **Controls**
 * Outbound allowlist — iptables + ipset + dnsmasq
