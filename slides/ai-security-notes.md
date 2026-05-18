@@ -83,7 +83,7 @@ allowing `github.com` permits domain fronting to arbitrary hosts.
 | [tyler36/ddev-ollama](https://github.com/tyler36/ddev-ollama) | Local LLMs as a DDEV sidecar |
 | [e0ipso/ddev-playwright-cli](https://github.com/e0ipso/ddev-playwright-cli) | Playwright for AI browser automation |
 
-⚠️ `ddev-agents-sync` auto-pulls from git on every start — supply-chain risk.
+⚠️ `ddev-ai-workspace` installs `ddev-agents-sync` as a dependency — it auto-pulls agent definitions from external git repos on every `ddev start`. If a repo is compromised, malicious agent instructions execute automatically. **Supply-chain risk.**
 
 ---
 
