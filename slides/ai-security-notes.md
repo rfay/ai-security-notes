@@ -31,19 +31,12 @@ You need hard, OS-level controls.
 
 ## Filesystem Security
 
-**Risks**
-* Writing to `$PATH`, shell configs, parent directories
-* Reading SSH keys, `.env` files, cloud credentials
-
-**Controls**
 * Non-root user inside the container
-* OS-level write isolation — bubblewrap (Linux), Seatbelt (macOS)
-* Read-only mounts for host credentials
+* Write isolation — only the working directory
+* Read-only mounts for host credentials (SSH keys, `.env`)
+* Don't mount `~/.ssh` or cloud credential files into the container
 
-**Claude Code built-in:** `/sandbox` or `"sandbox": { "enabled": true }`
-
-Reduces permission prompts by ~84%.
-[code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
+**Claude Code:** `/sandbox` enables OS-level filesystem isolation
 
 ---
 
@@ -135,3 +128,25 @@ claude --remote-control
 This presentation was built exactly this way — Claude Code in a [Coder](https://coder.com) workspace, VS Code in the browser.
 
 [code.claude.com/docs/en/devcontainer](https://code.claude.com/docs/en/devcontainer)
+
+---
+
+## Claude Code Sandboxing
+
+[code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
+
+Enable with `/sandbox` or `settings.json`:
+```json
+{ "sandbox": { "enabled": true } }
+```
+
+* Filesystem — read/write only inside working directory
+* Network — outbound blocked except your `allowedDomains` list
+* Enforced at OS level (bubblewrap / Apple Seatbelt)
+* Applies to every tool the agent spawns — not just Claude's own file tools
+* Reduces permission prompts by ~84%
+
+Open-source runtime for sandboxing anything (e.g. MCP servers):
+```bash
+npx @anthropic-ai/sandbox-runtime <command>
+```
